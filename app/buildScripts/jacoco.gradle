@@ -1,0 +1,87 @@
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.8.1"
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+}
+
+project.afterEvaluate {
+
+    android.applicationVariants.all { variant ->
+        def variantName = variant.name
+        def taskName = "${variantName.capitalize()}UnitTest"
+        def testTaskName = "test${variantName.capitalize()}UnitTest"
+
+        tasks.create(name: "jacoco${taskName}Report", type: JacocoReport, dependsOn: "$testTaskName") {
+            group = "Reporting"
+            description = "Generate Jacoco coverage reports for the ${variantName.capitalize()} build."
+
+            reports {
+                html.enabled = true
+                xml.enabled = true
+            }
+
+            def excludes = [
+                    '**/R.class',
+                    '**/R$*.class',
+                    '**/BuildConfig.*',
+                    '**/Manifest*.*',
+                    '**/*Test*.*',
+                    'android/**/*.*',
+                    '**/Dagger*Component.class',
+                    '**/Dagger*Component$Builder.class',
+                    '**/*Module_*Factory.class',
+                    "**/*Module.*", // Modules for Dagger.
+                    "**/*Dagger*.*", // Dagger auto-generated code.
+                    "**/*MembersInjector*.*", // Dagger auto-generated code.
+                    "**/*_Provide*Factory*.*",
+                    "*com/movie/app/di/**",
+
+                    //Data classes
+                    "*com/movie/app/net/data/entity/**",
+                    "*com/movie/app/net/data/response/**",
+                    "**/*ViewModel.*", // Modules for Dagger.
+
+                    //RX
+                    "*com/movie/app/net/rx/transformer/RetryTransformers.class",
+                    "*com/movie/app/net/rx/SchedulerFactory.class",
+                    "*com/movie/app/net/provider/**",
+
+                    //Settings
+                    "*com/movie/app/net/settings/AppNetworkSettings.class",
+                    "*com/movie/app/net/settings/ServerEnvironment.class",
+                    "*com/movie/app/net/retrofit/GsonResponseBodyConverter.class",
+                    "*com/movie/app/net/retrofit/GsonConverterFactory.class",
+                    "*com/movie/app/net/strategy/DefaultRetryStrategy.class",
+                    "*com/movie/app/net/strategy/NetworkOrHttpErrorRetryStrategy.class",
+
+                    //UI
+                    "*com/movie/app/ui/base/BaseActivity.class",
+
+                    //OkHttp
+                    "*com/movie/app/domain/proxy/CurrencyApiProxy.class",
+                    "*com/movie/app/domain/api/CurrencyApi.class",
+                    "*com/movie/app/net/factory/GenericApiFactory.class"
+            ]
+            def javaClasses = fileTree(dir: variant.javaCompiler.destinationDir, excludes: excludes)
+            def kotlinClasses = fileTree(dir: "${buildDir}/tmp/kotlin-classes/${variantName}", excludes: excludes)
+            classDirectories = files([javaClasses, kotlinClasses])
+
+            sourceDirectories = files([
+                    "$project.projectDir/src/main/java",
+                    "$project.projectDir/src/${variantName}/java",
+                    "$project.projectDir/src/main/kotlin",
+                    "$project.projectDir/src/${variantName}/kotlin"
+            ])
+
+            executionData = files([
+                    "${project.buildDir}/jacoco/${testTaskName}.exec"
+            ])
+        }
+    }
+}
+
+

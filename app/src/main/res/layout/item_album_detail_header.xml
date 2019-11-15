@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/item_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/margin_16dp"
+        android:padding="@dimen/margin_16dp">
+
+    <com.test.app.ui.music.customview.SquareImageView
+            android:id="@+id/album_cover"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="48dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginRight="48dp"
+            android:layout_marginBottom="24dp"
+            android:layout_weight="1"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop"/>
+
+    <TextView
+            android:id="@+id/album_name"
+            style="@style/TextAppearance.AppCompat.Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_4dp"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            tools:text="Album 1" />
+
+    <TextView
+            android:id="@+id/artist_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_4dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:textColor="@android:color/darker_gray"
+            style="@style/TextAppearance.AppCompat.Medium"
+            tools:text="Album 1" />
+
+    <TextView
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16dp"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:text="@string/volume_1" />
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="@dimen/margin_16dp"
+            android:background="@android:color/darker_gray"/>
+</LinearLayout>

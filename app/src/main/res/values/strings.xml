@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Music App</string>
+    <string name="albums">Albums</string>
+    <string name="error_message">Something went wrong</string>
+    <string name="search">Search</string>
+    <string name="artists">Artists</string>
+    <string name="volume_1">Volume 1</string>
+</resources>
